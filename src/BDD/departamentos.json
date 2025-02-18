@@ -1,0 +1,22 @@
+[
+    {
+      "parent_code": "01",
+      "code": "04",
+      "label": "Informática"
+    },
+    {
+      "parent_code": "01",
+      "code": "11",
+      "label": "Contabilidad"
+    },
+    {
+      "parent_code": "01",
+      "code": "14",
+      "label": "Gestión"
+    },
+    {
+      "parent_code": "01",
+      "code": "18",
+      "label": "Ventas"
+    }
+]
