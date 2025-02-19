@@ -101,10 +101,10 @@ export default {
             };
 
             emailjs.send(
-                'your_service_id',
-                'your_template_id',
+                'service_03cs9gn',
+                'template_48w7c1p',
                 templateParams,
-                'your_user_id'
+                'Ho983fU1qVv4sKQ4e'
             )
             .then((response) => {
                 console.log('Correo enviado correctamente', response);
