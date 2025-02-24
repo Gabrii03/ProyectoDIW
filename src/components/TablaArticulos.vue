@@ -1,7 +1,7 @@
 <template>
   <br>
   <div class="row">
-    <h4 class="text-center text-primary font-weight-bold">GESTIÓN DE ARTÍCULOS
+    <h4 class="text-center text-primary font-weight-bold"><i class="bi bi-kanban"></i>GESTIÓN DE ARTÍCULOS
     <router-link to="/" class="btn btn-customb"><i class="bi bi-arrow-return-left me-2"></i></router-link>
     </h4>
   </div>
@@ -98,7 +98,7 @@
           <i class="bi bi-chevron-left"></i>
         </button>
         <span class="mx-3 align-self-center">Página {{ currentPage }}</span>
-        <button class="btn btn-secondary" :disabled="currentPage * pageSize >= articulos.length" @click="siguientePagina">
+        <button class="btn btn-primary" :disabled="currentPage * pageSize >= articulos.length" @click="siguientePagina">
           <i class="bi bi-chevron-right"></i>
         </button>
       </div>

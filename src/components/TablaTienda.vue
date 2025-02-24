@@ -1,6 +1,6 @@
 <template>
   <div class="p-4 max-w-4xl mx-auto">
-    <h4 class="text-2xl font-bold mb-4 text-center text-primary">TIENDA DE ARTICULOS</h4>
+    <h4 class="text-2xl font-bold mb-4 text-center text-primary"><i class="bi bi-shop"></i>TIENDA DE ARTICULOS</h4>
 
     <div class="mb-4 flex justify-center gap-2">
       <button v-for="tipo in tiposArticulos" :key="tipo" @click="filtro = tipo"

@@ -22,7 +22,7 @@ rutas.get('/articulos', async (req, res) => {
     }
 });
 
-rutas.post('/articulos', async (req, res) => {
+/*rutas.post('/articulos', async (req, res) => {
     try{
         const articulo = new Articulo.default(req.body);
         await articulo.save();
@@ -61,7 +61,7 @@ rutas.put('/articulos/:id', async (req, res) => {
         res.status(400).json({ message: error.message });
         console.log("Error al actualizar artículo:", error);
     }
-});
+});*/
 
 rutas.delete('/articulos/:id', async (req, res) => {
     try {
@@ -150,56 +150,62 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage });
   
-  // Ruta para agregar un artículo con imagen
   rutas.post("/articulos", upload.single("imagen"), async (req, res) => {
     try {
-      const { nombre, categoria, descripcion, precio, stock, personalizacion, fechaAlta } = req.body;
-      const imagenUrl = req.file ? `/uploads/img/${req.file.filename}` : "";
-  
-      const nuevoArticulo = {
-        nombre,
-        categoria,
-        descripcion,
-        precio,
-        stock,
-        personalizacion,
-        fechaAlta,
-        imagen: imagenUrl, // URL de la imagen subida
-      };
-  
-      // Aquí deberías guardar nuevoArticulo en tu base de datos
-      const articuloGuardado = await guardarEnDB(nuevoArticulo);
-  
-      res.json(articuloGuardado);
+        const { nombre, categoria, descripcion, precio, stock, personalizacion, fechaAlta } = req.body;
+        const imagenUrl = req.file ? `/uploads/img/${req.file.filename}` : ""; // Guardar URL de imagen si existe
+
+        const nuevoArticulo = new Articulo({
+            nombre,
+            categoria,
+            descripcion,
+            precio,
+            stock,
+            personalizacion,
+            fechaAlta,
+            imagen: imagenUrl, // URL de la imagen en la BD
+        });
+
+        const articuloGuardado = await nuevoArticulo.save();
+        res.status(201).json(articuloGuardado);
+        console.log("Artículo guardado correctamente:", articuloGuardado);
     } catch (error) {
-      res.status(500).json({ error: "Error al guardar el artículo" });
+        console.error("Error al guardar el artículo:", error);
+        res.status(500).json({ message: "Error al guardar el artículo" });
     }
-  });
-  
-  // Ruta para actualizar un artículo con imagen
-  rutas.put("/articulos/:id", upload.single("imagen"), async (req, res) => {
+});
+
+// **Ruta para actualizar un artículo con imagen**
+rutas.put("/articulos/:id", upload.single("imagen"), async (req, res) => {
     try {
-      const { nombre, categoria, descripcion, precio, stock, personalizacion, fechaAlta } = req.body;
-      const imagenUrl = req.file ? `/uploads/img/${req.file.filename}` : req.body.imagen;
-  
-      const articuloActualizado = {
-        nombre,
-        categoria,
-        descripcion,
-        precio,
-        stock,
-        personalizacion,
-        fechaAlta,
-        imagen: imagenUrl, // Si no se sube nueva imagen, mantiene la existente
-      };
-  
-      // Aquí deberías actualizar el artículo en tu base de datos
-      const resultado = await actualizarEnDB(req.params.id, articuloActualizado);
-  
-      res.json(resultado);
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "ID inválido" });
+        }
+
+        const { nombre, categoria, descripcion, precio, stock, personalizacion, fechaAlta } = req.body;
+        const articuloExistente = await Articulo.findById(id);
+
+        if (!articuloExistente) {
+            return res.status(404).json({ message: "Artículo no encontrado" });
+        }
+
+        const imagenUrl = req.file ? `/uploads/img/${req.file.filename}` : articuloExistente.imagen; // Mantener imagen actual si no se sube una nueva
+
+        const articuloActualizado = await Articulo.findByIdAndUpdate(
+            id,
+            { nombre, categoria, descripcion, precio, stock, personalizacion, fechaAlta, imagen: imagenUrl },
+            { new: true }
+        );
+
+        res.json(articuloActualizado);
+        console.log("Artículo actualizado correctamente:", articuloActualizado);
     } catch (error) {
-      res.status(500).json({ error: "Error al actualizar el artículo" });
+        console.error("Error al actualizar el artículo:", error);
+        res.status(500).json({ message: "Error al actualizar el artículo" });
     }
-  });
+});
+
 
 export default rutas;

@@ -1,6 +1,6 @@
 <template>
     <div class="container mt-5">
-        <h4 class="text-center text-primary font-weight-bold">Página de contacto</h4>
+        <h4 class="text-center text-primary font-weight-bold"><i class="bi bi-person-lines-fill"></i> Página de contacto</h4>
         <br>
         <form @submit.prevent="enviarCorreo">
             <div class="form-group">

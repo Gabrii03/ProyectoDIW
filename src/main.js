@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-//import { createPinia } from 'pinia'
+import { createPinia } from 'pinia'
 import store from './store/store.mjs'
 
 import "bootstrap"
@@ -13,6 +13,5 @@ import "sweetalert2/dist/sweetalert2.min.css"
 import "@fortawesome/fontawesome-free/css/all.css"
 
 
-createApp(App).use(router).use(store).mount('#app')
+createApp(App).use(createPinia()).use(router).use(store).mount('#app')
 
-//.use(createPinia())

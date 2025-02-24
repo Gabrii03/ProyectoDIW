@@ -130,7 +130,7 @@
           </button>
           <span class="mx-3 align-self-center">Página {{ currentPage }}</span>
 
-          <button class="btn btn-secondary" :disabled="currentPage * perPage >= this.candidatos.length"
+          <button class="btn btn-primary" :disabled="currentPage * pageSize >= this.candidatos.length"
             @click.prevent="siguientePagina">
             <i class="bi bi-chevron-right"></i>
           </button>
